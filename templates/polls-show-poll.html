@@ -1,0 +1,40 @@
+{% extends "molnet/base.html" %}
+{% load i18n md2 %}
+{% block metatitle %}{% trans "Poll" %}{% endblock %}
+{% block title %}{% trans "Poll" %}{% endblock %}
+{% block reporterrorlink %}{% url errorreport %}?url={% url molnet-polls-show-poll poll.id %}{% endblock %}
+{% block javascript %}
+  <script type='text/javascript'>
+  $(document).ready(function() {
+    $("#navigation").corner("3px");
+  });
+  </script>
+{% endblock %}
+{% block container %}
+<div id="listing">
+  {% if user.is_authenticated %}
+  <a href="#">{% trans "Do you want to create a poll?" %}</a>
+  {% endif %}
+  
+  <br/><br/>
+  <ul>
+  <li>
+  <h3><a href="#">{{ poll.title }}</a></h3>
+  <div class="poll-meta">
+    {% url people poll.created_by.username as link_to_person %}
+    {% blocktrans with poll.created_by.get_full_name as name and poll.published_at as published_at %}
+    Created by <a href="{{ link_to_person }}">{{ name }}</a> at {{ published_at }}.
+    {% endblocktrans %}
+  </div>
+  <div class="poll-description">{{ poll.description|markdown2 }}</div>
+  {{ form.choices }}
+  <input class="submit" type="submit" value="{% if vote_id %}{% trans "Change your vote" %}{% else %}{% trans "Vote" %}{% endif %}" />
+  </li>
+  </ul>
+  <p>
+    {% blocktrans %}
+    {{ number_of_votes }} persons have voted so far. See results?
+    {% endblocktrans %}
+  </p>
+</div>
+{% endblock %}
