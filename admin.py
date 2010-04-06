@@ -18,11 +18,11 @@ admin.site.register(Choice, ChoiceAdmin)
 
 class PollAdmin(admin.ModelAdmin):
     fields = ['title', 'description', 'created_by', 'allow_new_choices',
-              'is_published', 'published_at']
+              'status', 'published_at']
     list_display = ['title', 'created_by', 'allow_new_choices',
-                    'is_published', 'published_at', 'date_created',
+                    'status', 'published_at', 'date_created',
                     'date_modified']
-    list_filter = ['is_published', 'allow_new_choices']
+    list_filter = ['status', 'allow_new_choices']
     search_fields = ['title', 'description']
 
 admin.site.register(Poll, PollAdmin)

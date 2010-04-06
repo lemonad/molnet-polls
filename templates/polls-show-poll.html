@@ -1,7 +1,6 @@
-{% extends "molnet/base.html" %}
+{% extends "base.html" %}
 {% load i18n md2 %}
 {% block metatitle %}{% trans "Poll" %}{% endblock %}
-{% block title %}{% trans "Poll" %}{% endblock %}
 {% block reporterrorlink %}{% url errorreport %}?url={% url molnet-polls-show-poll poll.id %}{% endblock %}
 {% block javascript %}
   <script type='text/javascript'>
@@ -10,31 +9,73 @@
   });
   </script>
 {% endblock %}
-{% block container %}
-<div id="listing">
-  {% if user.is_authenticated %}
-  <a href="#">{% trans "Do you want to create a poll?" %}</a>
-  {% endif %}
-  
-  <br/><br/>
-  <ul>
-  <li>
-  <h3><a href="#">{{ poll.title }}</a></h3>
-  <div class="poll-meta">
-    {% url people poll.created_by.username as link_to_person %}
-    {% blocktrans with poll.created_by.get_full_name as name and poll.published_at as published_at %}
-    Created by <a href="{{ link_to_person }}">{{ name }}</a> at {{ published_at }}.
-    {% endblocktrans %}
+{% block main %}
+  <div class="span-3">&nbsp;</div>
+  <div class="poll append-3 span-12 box rounded-9">
+    <h3><a href="#">{{ poll.title }}</a></h3>
+    <div>{{ poll.description|markdown2 }}</div>
+    {% if form %}
+    <form action="." method="post">
+      {% csrf_token %}
+      {% if form.choices.errors %}
+      <p>{{ form.choices.errors }}</p>
+      {% endif %}
+      {{ form.choices }}
+      <input class="submit" type="submit" value="{% if vote_id %}{% trans "Change your vote" %}{% else %}{% trans "Vote" %}{% endif %}" />
+    </form>
+    {% else %}
+    <ul>
+      {% for choice in choices %}
+        <li>{{ choice }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
   </div>
-  <div class="poll-description">{{ poll.description|markdown2 }}</div>
-  {{ form.choices }}
-  <input class="submit" type="submit" value="{% if vote_id %}{% trans "Change your vote" %}{% else %}{% trans "Vote" %}{% endif %}" />
-  </li>
+  <div class="span-3">&nbsp;</div>
+  <div class="append-3 span-12 last">
+    <div class="poll-meta">
+      {% url people poll.created_by.username as link_to_person %}
+      {% blocktrans with poll.created_by.get_full_name as name and poll.published_at as published_at %}
+      Created by <a href="{{ link_to_person }}">{{ name }}</a> at {{ published_at }}.
+      {% endblocktrans %}
+    </div>
+    <p>
+      {% blocktrans %}
+      {{ number_of_votes }} persons have voted so far.
+      {% endblocktrans %}
+      <a href="?show-results">{% trans "See results?" %}</a>
+    </p>
+
+    <div class="poll-results" {% if not show_results %}style="display:none;"{% endif %}>
+      <h3>{% trans "Results" %}</h3>
+      <ul>
+      {% for choice in choices %}
+      <li>
+        {{ choice }}<br/>
+        {% if choice.num_votes %}
+        <div class="rounded-3" style="display:inline-block;width:{% widthratio choice.num_votes number_of_votes 250 %}px;background-color:#ffc979;">&nbsp;</div>
+        {% widthratio choice.num_votes number_of_votes 100 %}%{% if choice.num_votes %} ({{ choice.num_votes }}){% endif %}
+        {% else %}
+        <div class="rounded-3" style="display:inline-block;width:5px;background-color:#eee;">&nbsp;</div>
+        0%
+        {% endif %}
+      </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}
+{% block sidebar %}
+{% if recent_polls %}
+<div class="rounded-9 box" style="background-color:#eee;">
+  <h4>{% trans "Recent polls" %}</h4>
+  <ul>
+    {% for poll in recent_polls %}
+    <li><a href="{% url molnet-polls-show-poll poll.id %}">{{ poll.title }}</a></li>
+    {% endfor %}
   </ul>
-  <p>
-    {% blocktrans %}
-    {{ number_of_votes }} persons have voted so far. See results?
-    {% endblocktrans %}
-  </p>
 </div>
+{% endif %}
+
+{{ block.super }}
 {% endblock %}
