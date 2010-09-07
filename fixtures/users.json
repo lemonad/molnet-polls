@@ -1,0 +1,62 @@
+[
+    {
+        "pk": 1,
+        "model": "auth.user",
+        "fields": {
+            "username": "superuser",
+            "first_name": "Sarah",
+            "last_name": "Superuser",
+            "email": "root@example.com",
+            "password": "",
+            "is_superuser": true
+        }
+    },
+    {
+        "pk": 2,
+        "model": "auth.user",
+        "fields": {
+            "username": "testclient",
+            "first_name": "Test",
+            "last_name": "Client",
+            "email": "test@example.com",
+            "password": "sha1$6efc0$f93efe9fd7542f25a7be94871ea45aa95de57161",
+            "is_staff": false
+        }
+    },
+    {
+        "pk": 3,
+        "model": "auth.user",
+        "fields": {
+            "username": "user",
+            "first_name": "Ursula",
+            "last_name": "User",
+            "email": "user@example.com",
+            "password": "sha1$6efc0$f93efe9fd7542f25a7be94871ea45aa95de57161",
+            "is_staff": false
+        }
+    },
+    {
+        "pk": 4,
+        "model": "auth.user",
+        "fields": {
+            "username": "anotheruser",
+            "first_name": "Ulysses",
+            "last_name": "User",
+            "email": "ulysses@example.com",
+            "password": "sha1$6efc0$f93efe9fd7542f25a7be94871ea45aa95de57161",
+            "is_staff": false
+        }
+    },
+    {
+        "pk": 5,
+        "model": "auth.user",
+        "fields": {
+            "username": "thirduser",
+            "first_name": "Ukelele",
+            "last_name": "User",
+            "email": "ukulele@example.com",
+            "password": "sha1$6efc0$f93efe9fd7542f25a7be94871ea45aa95de57161",
+            "is_staff": false
+        }
+    }
+]

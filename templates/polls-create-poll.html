@@ -1,0 +1,52 @@
+{% extends "polls-base.html" %}
+{% load i18n md2 %}
+{% block metatitle %}{% trans "Create poll" %}{% endblock %}
+{% block reporterrorlink %}{% url errorreport %}?url={% url molnet-polls-create-poll %}{% endblock %}
+{% block javascript %}
+  <script type='text/javascript'>
+  $(document).ready(function() {
+  });
+  </script>
+{% endblock %}
+{% block main %}
+  <div class="span-3">&nbsp;</div>
+  <div class="poll append-3 span-12 box rounded-9">
+    <h3>{% trans "New poll" %}</h3>
+    <form id="poll-form" action="{% url molnet-polls-create-poll %}" method="post">
+      <div class="span-12 last">
+        {{ form.title.label_tag }}
+      </div>
+      <div class="span-12 last">
+        {{ form.title }}
+      </div>
+      {% if form.title.errors %}
+      <p>
+        {{ form.title.errors }}
+      </p>
+      {% endif %}
+
+      <div class="span-12 last">
+        {{ form.description.label_tag }}
+      </div>
+      <div class="span-12 last">
+        {{ form.description }}
+      </div>
+      {% if form.description.errors %}
+      <p>
+        {{ form.description.errors }}
+      </p>
+      {% endif %}
+      <div class="span-12 last">
+        {{ form.allow_new_choices }} {{ form.allow_new_choices.label_tag }}
+      </div>
+      <div class="span-12 last">
+        <input class="submit" type="submit" value="{% trans "Create" %}" />
+      </div>
+      {% if form.allow_new_choices.errors %}
+      <p>
+        {{ form.allow_new_choices.errors }}
+      </p>
+      {% endif %}
+    </form>
+  </div>
+{% endblock %}

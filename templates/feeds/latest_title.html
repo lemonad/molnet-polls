@@ -1,0 +1,7 @@
+{% load i18n %}
+{{ obj.title }}
+{% blocktrans count obj.number_of_votes as number_of_votes %}
+(1 vote)
+{% plural %}
+({{ number_of_votes }} votes)
+{% endblocktrans %}

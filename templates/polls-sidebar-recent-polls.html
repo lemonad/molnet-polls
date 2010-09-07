@@ -1,0 +1,15 @@
+{% load i18n %}
+{% if sidebar_polls.recent %}
+<div class="rounded-9 box" style="background-color:#eee;">
+  <h4>{% trans "Recent polls" %}</h4>
+  <ul>
+    {% for poll in sidebar_polls.recent %}
+    <li>
+      <a href="{% url molnet-polls-show-poll poll.published_at.year poll.published_at.month poll.published_at.day poll.slug %}">
+        {{ poll.title }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}

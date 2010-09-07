@@ -1,0 +1,76 @@
+[
+    {
+        "pk": 1,
+        "model": "polls.poll",
+        "fields": {
+            "slug": "kittens-or-kaboodles",
+            "title": "Kittens or kaboodles?",
+            "description": "Which one do you the like best?",
+            "allow_new_choices": true,
+            "user": 3,
+            "status": "PUBLISHED",
+            "published_at": "2010-04-18 22:50:05",
+            "date_created": "2010-04-18 22:18:05",
+            "date_modified": "2010-04-18 22:18:05"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "polls.poll",
+        "fields": {
+            "slug": "draft-beer",
+            "title": "Do you like draft beer?",
+            "description": "",
+            "allow_new_choices": false,
+            "user": 4,
+            "status": "DRAFT",
+            "published_at": null,
+            "date_created": "2010-04-18 22:18:05",
+            "date_modified": "2010-04-18 22:18:05"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "polls.poll",
+        "fields": {
+            "slug": "a-close-call",
+            "title": "That was a close call, wasn't it?",
+            "description": "I bet it was.",
+            "allow_new_choices": true,
+            "user": 4,
+            "status": "CLOSED",
+            "published_at": "2010-04-18 23:02:05",
+            "date_created": "2010-04-18 22:18:05",
+            "date_modified": "2010-04-18 22:18:05"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "polls.poll",
+        "fields": {
+            "slug": "open-sesame",
+            "title": "Do you want to open it?",
+            "description": "Say it!",
+            "allow_new_choices": false,
+            "user": 3,
+            "status": "CLOSED",
+            "published_at": "2010-04-18 23:02:05",
+            "date_created": "2010-04-18 22:18:05",
+            "date_modified": "2010-04-18 22:18:05"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "polls.poll",
+        "fields": {
+            "slug": "fix-the-window",
+            "title": "Fix the window, will you?",
+            "description": "It's a little drafty.",
+            "allow_new_choices": false,
+            "user": 3,
+            "status": "DRAFT",
+            "published_at": null,
+            "date_created": "2010-04-18 22:18:05",
+            "date_modified": "2010-04-18 22:18:05"
+        }
+    }]

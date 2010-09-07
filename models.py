@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import re
 
+from autoslug import AutoSlugField
 from django.contrib.auth.models import User
 from django.db import connection
 from django.db.models import (BooleanField, CharField, Count, DateField,
                               DateTimeField, ForeignKey, Manager, Model,
-                              Q, TextField, TimeField)
+                              permalink, Q, TextField, TimeField)
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -14,7 +15,7 @@ class PollManager(Manager):
         return self.exclude(status='DRAFT') \
                    .order_by('-published_at')
     def created_by_user(self, userid):
-        return self.filter(created_by=userid) \
+        return self.filter(user=userid) \
                    .order_by('-published_at')
     def answered_by_user(self, userid):
         return self.filter(choice__vote__user=userid) \
@@ -40,18 +41,21 @@ class Poll(Model):
                       ('PUBLISHED', _("Published")),
                       ('CLOSED', _("Closed")))
 
-    created_by = ForeignKey(User,
-                            verbose_name=_('created by'),
-                            null=False,
-                            db_index=True)
+    slug = AutoSlugField(_("Slug"),
+                         populate_from='title',
+                         editable=False,
+                         unique=True,
+                         blank=True,
+                         max_length=80)
+    user = ForeignKey(User,
+                      verbose_name=_('created by'),
+                      db_index=True)
     title = CharField(_('title'),
                       max_length=140,
-                      null=False,
-                      blank=False)
+                      unique=True)
     description = TextField(_('description'),
                             blank=True)
     allow_new_choices = BooleanField(_('allow users to add choices?'),
-                                     null=False,
                                      default=False)
     status = CharField(_("Status"),
                        db_index=True,
@@ -59,20 +63,40 @@ class Poll(Model):
                        choices=STATUS_CHOICES,
                        default='DRAFT')
     published_at = DateTimeField(_('date and time published'),
+                                 null=True,
                                  blank=True,
                                  db_index=True)
     date_created = DateTimeField(_('created (date)'),
-                                 null=False,
                                  db_index=True,
                                  auto_now_add=True)
     date_modified = DateTimeField(_('modified (date)'),
-                                  null=False,
                                   db_index=True,
                                   auto_now=True)
     objects = PollManager()
 
     def __unicode__(self):
         return self.title
+
+    def number_of_votes(self):
+        q = self.choice_set.aggregate(num_votes=Count('vote'))
+        return q['num_votes']
+
+    def is_draft(self):
+        return (self.status == 'DRAFT')
+
+    def is_published(self):
+        return (self.status != 'DRAFT')
+
+    def is_closed(self):
+        return (self.status == 'CLOSED')
+
+    @permalink
+    def get_absolute_url(self):
+        return ('molnet-polls-show-poll', (),
+                {'year': self.published_at.year,
+                 'month': self.published_at.month,
+                 'day': self.published_at.day,
+                 'slug': self.slug})
 
     class Meta:
         ordering = ['-published_at']
@@ -90,18 +114,13 @@ class Choice(Model):
 
     poll = ForeignKey(Poll,
                       verbose_name=_('poll'),
-                      null=False,
                       db_index=True)
     choice = CharField(_('choice'),
-                      max_length=255,
-                      null=False,
-                      blank=False)
-    added_by = ForeignKey(User,
-                          verbose_name=_('added by'),
-                          null=False,
-                          db_index=True)
+                      max_length=255)
+    user = ForeignKey(User,
+                      verbose_name=_('added by'),
+                      db_index=True)
     date_created = DateTimeField(_('created (date)'),
-                                 null=False,
                                  db_index=True,
                                  auto_now_add=True)
     objects = ChoiceManager()
@@ -110,7 +129,8 @@ class Choice(Model):
         return self.choice
 
     class Meta:
-        ordering = ['-date_created']
+        unique_together = (('poll', 'choice'),)
+        ordering = ['date_created']
         verbose_name = _('choice')
         verbose_name_plural = _('choices')
 
@@ -125,18 +145,14 @@ class Vote(Model):
 
     user = ForeignKey(User,
                       verbose_name=_('user'),
-                      null=False,
                       db_index=True)
     choice = ForeignKey(Choice,
                       verbose_name=_('choice'),
-                      null=False,
                       db_index=True)
     date_created = DateTimeField(_('created (date)'),
-                                 null=False,
                                  db_index=True,
                                  auto_now_add=True)
     date_modified = DateTimeField(_('modified (date)'),
-                                  null=False,
                                   db_index=True,
                                   auto_now=True)
     objects = VoteManager()

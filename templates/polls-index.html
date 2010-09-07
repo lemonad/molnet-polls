@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "polls-base-without-recent.html" %}
 {% load i18n md2 %}
 {% block metatitle %}{% trans "Polls" %}{% endblock %}
 {% block title %}{% trans "Polls" %}{% endblock %}
@@ -11,29 +11,25 @@
   </script>
 {% endblock %}
 {% block main %}
-  <p>{% trans "Give and receive feedback by creating and answering polls" %}</p>
-  {% if user.is_authenticated %}
-  <a href="#">{% trans "Do you want to create a poll?" %}</a>
-  {% endif %}
-  
-  <br/><br/>
-  {% if recent_polls %}
+  <h4>
+    {% trans "Give and receive feedback by creating and answering polls" %}
+  </h4>
+  {% if sidebar_polls.recent %}
   <ul>
-  {% for poll in recent_polls %}
-  <li>
-  <h3><a href="{% url molnet-polls-show-poll poll.id %}">{{ poll.title }}</a></h3>
-  <div class="poll-meta">
-    {% url people poll.created_by.username as link_to_person %}
-    {% blocktrans with poll.created_by.get_full_name as name and poll.published_at as published_at %}
-    Created by <a href="{{ link_to_person }}">{{ name }}</a> at {{ published_at }}.
-    {% endblocktrans %}
-  </div>
-  <div class="poll-description">{{ poll.description|markdown2 }}</div>
-  </li>
-  {% endfor %}
+    {% for poll in sidebar_polls.recent %}
+    <li>
+      <h3>
+        <a href="{% url molnet-polls-show-poll poll.published_at.year poll.published_at.month poll.published_at.day poll.slug %}">
+          {{ poll.title }}
+        </a>
+      </h3>
+      <div class="poll-description">
+        {{ poll.description|markdown2 }}
+      </div>
+      {% include "polls-meta.html" %}
+      <hr/>
+    </li>
+    {% endfor %}
   </ul>
   {% endif %}
-{% endblock %}
-{% block sidebar %}
-{{ block.super }}
 {% endblock %}

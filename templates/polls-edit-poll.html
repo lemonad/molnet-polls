@@ -1,0 +1,175 @@
+{% extends "polls-base.html" %}
+{% load i18n md2 %}
+{% block metatitle %}{% trans "Edit poll" %}{% endblock %}
+{% block reporterrorlink %}{% url errorreport %}?url={% url molnet-polls-edit-poll %}{% endblock %}
+{% block javascript %}
+  <script type='text/javascript'>
+  $(document).ready(function() {
+    {% if not poll_form.title.errors and not poll_form.description.errors and not poll_form.allow_new_choices.errors %}
+    $("#poll-edit").hide();
+    $("#poll-edit-button").click(function() {
+      $("#poll-edit").show();
+      $("#poll-info").hide();
+    });
+    {% else %}
+    $("#poll-info").hide();
+    {% endif %}
+  });
+  </script>
+{% endblock %}
+{% block main %}
+  <div class="span-3">&nbsp;</div>
+  <div class="poll append-3 span-12 box rounded-9">
+    <div id="poll-info">
+      <h3>
+        {% ifequal poll.status "DRAFT" %}
+        {{ poll.title }} ({{ poll.get_status_display|lower }})
+        {% else %}
+        <a href="{% url molnet-polls-show-poll poll.published_at.year poll.published_at.month poll.published_at.day poll.slug %}">
+          {{ poll.title }}
+        </a>
+        {% ifequal poll.status "CLOSED" %}
+          ({{ poll.get_status_display|lower }})
+        {% endifequal %}
+        {% endifequal %}
+      </h3>
+      <div>
+        {{ poll.description|markdown2 }}
+      </div>
+      <a id="poll-edit-button" href="#">{% trans "Edit..." %}</a>
+    </div>
+    <div id="poll-edit">
+      <h4>{% trans "Edit poll" %}</h4>
+      <form id="poll-form" method="post"
+            action="{% url molnet-polls-edit-poll poll.slug %}">
+        <div class="span-12">
+          {{ poll_form.title.label_tag }}
+        </div>
+        <div class="span-12">
+          {{ poll_form.title }}
+        </div>
+        {% if poll_form.title.errors %}
+        <p>
+          {{ poll_form.title.errors }}
+        </p>
+        {% endif %}
+
+        <div class="span-12">
+          {{ poll_form.description.label_tag }}
+        </div>
+        <div class="span-12">
+          {{ poll_form.description }}
+        </div>
+        {% if poll_form.description.errors %}
+        <p>
+          {{ poll_form.description.errors }}
+        </p>
+        {% endif %}
+
+        <div class="span-12">
+          {{ poll_form.allow_new_choices }}
+          {{ poll_form.allow_new_choices.label_tag }}
+        </div>
+        <div class="span-12">
+          <input class="submit" type="submit" name="poll"
+                 value="{% trans "Update" %}" />
+        </div>
+        {% if poll_form.allow_new_choices.errors %}
+        <p>
+          {{ poll_form.allow_new_choices.errors }}
+        </p>
+        {% endif %}
+      </form>
+    </div>
+    <hr/>
+    {% include "polls-meta.html" %}
+
+    {% ifequal poll.status "DRAFT" %}
+    <form style="display:inline;" method="post"
+          action="{% url molnet-polls-edit-poll poll.slug %}">
+      <input class="submit" type="submit" name="publish"
+             value="{% trans "Publish poll" %}" />
+    </form>
+    {% endifequal %}
+
+    {% ifequal poll.status "PUBLISHED" %}
+    <form style="display:inline;" method="post"
+          action="{% url molnet-polls-edit-poll poll.slug %}">
+      <input class="submit" type="submit" name="unpublish"
+             value="{% trans "Unpublish poll" %}" />
+    </form>
+    <form style="display:inline;" method="post"
+          action="{% url molnet-polls-edit-poll poll.slug %}">
+      <input class="submit" type="submit" name="close"
+             value="{% trans "Close poll" %}" />
+    </form>
+    {% endifequal %}
+
+    {% ifequal poll.status "CLOSED" %}
+    <form style="display:inline;" method="post"
+          action="{% url molnet-polls-edit-poll poll.slug %}">
+      <input class="submit" type="submit" name="re-open"
+             value="{% trans "Re-open poll" %}" />
+    </form>
+    {% endifequal %}
+
+    <form style="display:inline;" method="post"
+          action="{% url molnet-polls-edit-poll poll.slug %}">
+      <input class="submit" type="submit" name="delete"
+             value="{% trans "Delete poll" %}" />
+    </form>
+  </div>
+
+  <div id="poll-choices">
+    <div class="span-3">&nbsp;</div>
+    <div class="poll append-3 span-12 box rounded-9">
+      {% if choices %}
+      <h4>{% trans "Choices" %}</h4>
+      <ul>
+        {% for choice in choices %}
+        <li>
+          {{ choice }}
+          {% if poll.allow_new_choices %}
+          {% ifnotequal poll.user.username choice.user.username %}
+          (<em>{% trans "added by" %}
+            <a href="{% url people choice.user %}">
+              {{ choice.user.get_full_name }}
+            </a>
+          </em>)
+          {% endifnotequal %}
+          {% endif %}
+
+          <form style="display:inline" id="poll-delete-choice-form"
+                method="post"
+                action="{% url molnet-polls-edit-poll poll.slug %}">
+            <input type="hidden" name="choice-id"
+                   value="{{ choice.id }}" />
+            <input class="submit" type="submit" name="delete-choice"
+                   value="{% trans "Delete" %}" />
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <form id="poll-choice-form" method="post"
+            action="{% url molnet-polls-edit-poll poll.slug %}">
+        {% if choice_form.choice.errors %}
+        <p>
+          {{ choice_form.choice.errors }}
+        </p>
+        {% endif %}
+        <div class="span-12">
+          {{ choice_form.choice.label_tag }}
+        </div>
+        <div class="span-12">
+          {{ choice_form.choice }}
+        </div>
+        <div class="span-12">
+          <input class="submit" type="submit" name="choice"
+                 value="{% trans "Add choice" %}" />
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

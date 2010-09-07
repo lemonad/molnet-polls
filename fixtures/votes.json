@@ -1,0 +1,62 @@
+[
+    {
+        "pk": 1,
+        "model": "polls.vote",
+        "fields": {
+            "choice": 1,
+            "user": 3,
+            "date_created": "2010-04-18 22:18:05",
+            "date_modified": "2010-04-18 22:18:05"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "polls.vote",
+        "fields": {
+            "choice": 3,
+            "user": 4,
+            "date_created": "2010-04-18 22:18:05",
+            "date_modified": "2010-04-18 22:18:05"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "polls.vote",
+        "fields": {
+            "choice": 1,
+            "user": 5,
+            "date_created": "2010-04-18 22:18:05",
+            "date_modified": "2010-04-18 22:18:05"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "polls.vote",
+        "fields": {
+            "choice": 7,
+            "user": 4,
+            "date_created": "2010-04-18 22:18:05",
+            "date_modified": "2010-04-18 22:18:05"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "polls.vote",
+        "fields": {
+            "choice": 8,
+            "user": 5,
+            "date_created": "2010-04-18 22:18:05",
+            "date_modified": "2010-04-18 22:18:05"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "polls.vote",
+        "fields": {
+            "choice": 9,
+            "user": 3,
+            "date_created": "2010-04-18 22:18:05",
+            "date_modified": "2010-04-18 22:18:05"
+        }
+    }
+]

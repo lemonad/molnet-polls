@@ -9,17 +9,17 @@ from models import (Choice, Poll, Vote)
 
 
 class ChoiceAdmin(admin.ModelAdmin):
-    fields = ['poll', 'choice', 'added_by']
-    list_display = ['poll', 'choice', 'added_by', 'date_created']
+    fields = ['poll', 'choice', 'user']
+    list_display = ['poll', 'choice', 'user', 'date_created']
     search_fields = ['choice']
 
 admin.site.register(Choice, ChoiceAdmin)
 
 
 class PollAdmin(admin.ModelAdmin):
-    fields = ['title', 'description', 'created_by', 'allow_new_choices',
+    fields = ['title', 'description', 'user', 'allow_new_choices',
               'status', 'published_at']
-    list_display = ['title', 'created_by', 'allow_new_choices',
+    list_display = ['title', 'user', 'allow_new_choices',
                     'status', 'published_at', 'date_created',
                     'date_modified']
     list_filter = ['status', 'allow_new_choices']

@@ -1,0 +1,92 @@
+[
+    {
+        "pk": 1,
+        "model": "polls.choice",
+        "fields": {
+            "poll": 1,
+            "choice": "Kittens!",
+            "user": 3,
+            "date_created": "2010-04-18 22:45:05"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "polls.choice",
+        "fields": {
+            "poll": 1,
+            "choice": "Kaboodles!",
+            "user": 3,
+            "date_created": "2010-04-18 22:46:05"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "polls.choice",
+        "fields": {
+            "poll": 1,
+            "choice": "I can't decide, I like both!",
+            "user": 4,
+            "date_created": "2010-04-18 23:10:05"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "polls.choice",
+        "fields": {
+            "poll": 2,
+            "choice": "Sure",
+            "user": 4,
+            "date_created": "2010-04-18 22:21:05"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "polls.choice",
+        "fields": {
+            "poll": 2,
+            "choice": "Nope",
+            "user": 4,
+            "date_created": "2010-04-18 22:22:05"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "polls.choice",
+        "fields": {
+            "poll": 3,
+            "choice": "Close enough",
+            "user": 4,
+            "date_created": "2010-04-18 22:31:05"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "polls.choice",
+        "fields": {
+            "poll": 3,
+            "choice": "Could be closer",
+            "user": 4,
+            "date_created": "2010-04-18 22:32:05"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "polls.choice",
+        "fields": {
+            "poll": 3,
+            "choice": "I missed it",
+            "user": 5,
+            "date_created": "2010-04-18 23:10:05"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "polls.choice",
+        "fields": {
+            "poll": 3,
+            "choice": "What just happened?",
+            "user": 3,
+            "date_created": "2010-04-18 23:12:05"
+        }
+    }
+]

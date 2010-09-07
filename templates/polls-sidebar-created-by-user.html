@@ -1,0 +1,24 @@
+{% load i18n %}
+{% if user.is_authenticated and sidebar_polls.created_by_user %}
+<div class="rounded-9 box" style="background-color:#eee;">
+  <h4>{% trans "Your polls" %}</h4>
+  <ul>
+    {% for poll in sidebar_polls.created_by_user %}
+    <li>
+      {% ifequal poll.status "DRAFT" %}
+      <a href="{% url molnet-polls-edit-poll poll.slug %}">
+        {{ poll.title }}
+      </a>
+      ({% trans "draft" %})
+      {% else %}
+      <a href="{% url molnet-polls-show-poll poll.published_at.year poll.published_at.month poll.published_at.day poll.slug %}">
+        {{ poll.title }}
+      </a>
+      {% ifequal poll.status "ClOSED" %}({% trans "closed" %}){% endifequal %}
+      {% endifequal %}
+      [<em><a href="{% url molnet-polls-edit-poll poll.slug %}">Edit</a></em>]
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}

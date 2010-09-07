@@ -1,0 +1,25 @@
+{% load i18n %}
+<div class="poll-meta">
+  {% url people poll.user.username as link_to_person %}
+  <em>
+    {% ifequal poll.status "PUBLISHED" %}
+    {% blocktrans with poll.user.get_full_name as name and poll.published_at as published_at %}
+    Created by <a href="{{ link_to_person }}">{{ name }}</a>
+    and published at {{ published_at }}.
+    {% endblocktrans %}
+    {% endifequal %}
+    {% ifequal poll.status "DRAFT" %}
+    {% blocktrans with poll.user.get_full_name as name and poll.date_created as created_at %}
+    Created by <a href="{{ link_to_person }}">{{ name }}</a> at {{ created_at }}.
+    <strong>Poll is not yet published.</strong>
+    {% endblocktrans %}
+    {% endifequal %}
+    {% ifequal poll.status "CLOSED" %}
+    {% blocktrans with poll.user.get_full_name as name and poll.published_at as published_at %}
+    Created by <a href="{{ link_to_person }}">{{ name }}</a>
+    and published at {{ published_at }}.
+    <strong>Poll is closed.</strong>
+    {% endblocktrans %}
+    {% endifequal %}
+  </em>
+</div>

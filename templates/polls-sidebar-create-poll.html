@@ -1,0 +1,12 @@
+{% load i18n %}
+<div class="rounded-9 box" style="background-color:#ff9900;">
+  {% if user.is_authenticated %}
+  <a href="{% url molnet-polls-create-poll %}">
+    {% trans "Create your own poll" %}
+  </a>
+  {% else %}
+  <a href="#">
+    {% trans "Login and create your own poll" %}
+  </a>
+  {% endif %}
+</div>
