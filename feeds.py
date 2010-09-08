@@ -16,6 +16,13 @@ class LatestPolls(Feed):
     def items(self):
         return Poll.objects.recent()
 
+    def item_link(self, item):
+        return reverse('molnet-polls-show-poll',
+                       kwargs={'year': item.published_at.year,
+                               'month': item.published_at.month,
+                               'day': item.published_at.day,
+                               'slug': item.slug})
+
     def link(self):
         """ Defined as a method as reverse will otherwise throw an
         improperlyConfigured exception because the url patterns have

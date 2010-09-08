@@ -68,18 +68,14 @@ class PollTests(TestCase):
                 'choices.json',
                 'votes.json']
 
-    def test_poll_url_generation(self):
-        p = Poll.objects.get(id=1)
-        self.failUnlessEqual(p.get_absolute_url(),
-                             reverse('molnet-polls-show-poll',
-                                     kwargs={'year': p.published_at.year,
-                                             'month': p.published_at.month,
-                                             'day': p.published_at.day,
-                                             'slug': "kittens-or-kaboodles"}))
-
     def test_number_of_votes(self):
         p = Poll.objects.get(id=1)
         self.failUnlessEqual(p.number_of_votes(), 3)
+
+    def test_latest_feed(self):
+        response = self.client.get(reverse('molnet-polls-feed-latest-polls',
+                                   kwargs={'url': 'latest'}))
+        self.failUnlessEqual(response.status_code, 200)
 
 
 class ChoiceTests(TestCase):

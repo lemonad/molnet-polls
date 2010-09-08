@@ -90,14 +90,6 @@ class Poll(Model):
     def is_closed(self):
         return (self.status == 'CLOSED')
 
-    @permalink
-    def get_absolute_url(self):
-        return ('molnet-polls-show-poll', (),
-                {'year': self.published_at.year,
-                 'month': self.published_at.month,
-                 'day': self.published_at.day,
-                 'slug': self.slug})
-
     class Meta:
         ordering = ['-published_at']
         verbose_name = _('poll')
