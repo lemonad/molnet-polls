@@ -5,6 +5,14 @@
 {% block javascript %}
   <script type='text/javascript'>
   $(document).ready(function() {
+    if (!elementSupportsAttribute('div', '-moz-border-radius') &&
+            !elementSupportsAttribute('div', '-webkit-border-radius')) {
+        $(".rounded-3").corner("3px");
+        $(".rounded-6").corner("6px");
+        $(".rounded-9").corner("9px");
+        $(".rounded-10").corner("10px");
+        $(".rounded-19").corner("19px");
+    }
   });
   </script>
 {% endblock %}
