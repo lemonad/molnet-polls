@@ -44,6 +44,10 @@
         {{ form.description.errors }}
       </p>
       {% endif %}
+      <p class="poll-caption">
+        {% trans "Minimal formatting allowed (*<em>emphasis</em>*, **<strong>bold</strong>**, [link text](http://example.com/) and a few <a href='http://daringfireball.net/projects/markdown/syntax'>others</a>)" %}
+      </p>
+
       <div class="span-12 last">
         {{ form.allow_new_choices }} {{ form.allow_new_choices.label_tag }}
       </div>
