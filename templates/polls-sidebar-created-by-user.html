@@ -9,14 +9,25 @@
       <a href="{% url molnet-polls-edit-poll poll.slug %}">
         {{ poll.title }}
       </a>
-      ({% trans "draft" %})
+      <em>
+        ({% trans "draft" %},
+        <a href="{% url molnet-polls-edit-poll poll.slug %}">{% trans "edit..." %}</a>)
+      </em>
       {% else %}
       <a href="{% url molnet-polls-show-poll poll.published_at.year poll.published_at.month poll.published_at.day poll.slug %}">
         {{ poll.title }}
       </a>
-      {% ifequal poll.status "ClOSED" %}({% trans "closed" %}){% endifequal %}
+      {% ifequal poll.status "CLOSED" %}
+      <em>
+        ({% trans "closed" %},
+        <a href="{% url molnet-polls-edit-poll poll.slug %}">{% trans "edit..." %}</a>)
+      </em>
+      {% else %}
+      <em>
+        (<a href="{% url molnet-polls-edit-poll poll.slug %}">{% trans "edit..." %}</a>)
+      </em>
       {% endifequal %}
-      [<em><a href="{% url molnet-polls-edit-poll poll.slug %}">Edit</a></em>]
+      {% endifequal %}
     </li>
     {% endfor %}
   </ul>

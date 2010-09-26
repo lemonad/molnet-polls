@@ -1,0 +1,9 @@
+{% load i18n %}
+<div class="rounded-9 box" style="background-color:#d2e6fa;">
+  <h4>{% trans "RSS" %}</h4>
+  <ul>
+    <li>
+      <a href="{% url molnet-polls-feed "latest" %}">{% trans "Latest polls" %}</a>
+    </li>
+  </ul>
+</div>

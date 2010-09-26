@@ -5,7 +5,7 @@
     {% trans "Create your own poll" %}
   </a>
   {% else %}
-  <a href="#">
+  <a href="{% url login %}?next={% url molnet-polls-create-poll %}">
     {% trans "Login and create your own poll" %}
   </a>
   {% endif %}

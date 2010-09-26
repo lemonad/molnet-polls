@@ -14,20 +14,30 @@
         $(".rounded-19").corner("19px");
     }
 
+    {% ifequal poll.status "PUBLISHED" %}
     $("#vote-form input:text").keyup(function() {
         $("#vote-form input[value=OTHER]:radio").attr("checked", "checked");
     });
+    {% endifequal %}
   });
   </script>
 {% endblock %}
 {% block main %}
   <div class="span-3">&nbsp;</div>
   <div class="poll append-3 span-12 box rounded-9">
-    <h3><a href="#">{{ poll.title }}</a></h3>
+    <h3>
+      {{ poll.title }}
+      {% if user.is_authenticated %}
+      {% ifequal user.username poll.user.username %}
+      <em><a href="{% url molnet-polls-edit-poll poll.slug %}">({% trans "edit..." %})</a></em>
+      {% endifequal %}
+      {% endif %}
+    </h3>
     <div>
       {{ poll.description|markdown2 }}
     </div>
 
+    {% ifequal poll.status "PUBLISHED" %}
     {% if form %}
     <form id="vote-form" action="." method="post">
       {% if form.choices.errors %}
@@ -44,6 +54,7 @@
       {% endfor %}
     </ul>
     {% endif %}
+    {% endifequal %}
   </div>
 
   <div class="span-3">&nbsp;</div>
@@ -51,7 +62,7 @@
     {% include "polls-meta.html" %}
     <p>
       {% blocktrans %}
-      {{ number_of_votes }} persons have voted so far.
+      {{ number_of_votes }} person(s) have voted so far.
       {% endblocktrans %}
       {% if not show_results %}
       <a href="?show-results">{% trans "See results?" %}</a>
@@ -60,7 +71,7 @@
 
     <div class="poll-results"
          {% if not show_results %}style="display:none;"{% endif %}>
-      <h3>{% trans "Results" %}</h3>
+      <h4>{% trans "Results" %}</h4>
       <ul>
         {% for choice in choices %}
         <li>

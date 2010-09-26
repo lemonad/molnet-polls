@@ -73,7 +73,7 @@ class PollTests(TestCase):
         self.failUnlessEqual(p.number_of_votes(), 3)
 
     def test_latest_feed(self):
-        response = self.client.get(reverse('molnet-polls-feed-latest-polls',
+        response = self.client.get(reverse('molnet-polls-feed',
                                    kwargs={'url': 'latest'}))
         self.failUnlessEqual(response.status_code, 200)
 

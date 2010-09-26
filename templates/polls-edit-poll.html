@@ -3,6 +3,10 @@
 {% block metatitle %}{% trans "Edit poll" %}{% endblock %}
 {% block reporterrorlink %}{% url errorreport %}?url={% url molnet-polls-edit-poll %}{% endblock %}
 {% block javascript %}
+  <script type='text/javascript'
+          src="/media/javascript/wmd/showdown.js"></script>
+  <script type='text/javascript'
+          src="/media/javascript/wmd/wmd.js"></script>
   <script type='text/javascript'>
   $(document).ready(function() {
     if (!elementSupportsAttribute('div', '-moz-border-radius') &&
@@ -75,14 +79,17 @@
         </p>
         {% endif %}
         <p class="poll-caption">
-          {% trans "Minimal formatting allowed (*<em>emphasis</em>*, **<strong>bold</strong>**, [link text](http://example.com/) and a few <a href='http://daringfireball.net/projects/markdown/syntax'>others</a>)" %}
+          {% trans "Formatting: *<em>emphasis</em>*, **<strong>bold</strong>**, [link text](http://example.com/) and <a href='http://daringfireball.net/projects/markdown/syntax'>more</a>." %}
         </p>
+        <h5>{% trans "Preview" %}</h5>
+        <div id="wmd-preview"></div>
+        <hr/>
 
         <div class="span-12">
           {{ poll_form.allow_new_choices }}
           {{ poll_form.allow_new_choices.label_tag }}
         </div>
-        <div class="span-12">
+        <div class="span-12" style="text-align:right;">
           <input class="submit" type="submit" name="poll"
                  value="{% trans "Update" %}" />
         </div>
@@ -93,7 +100,7 @@
         {% endif %}
       </form>
     </div>
-    <hr/>
+    <br/>
     {% include "polls-meta.html" %}
 
     {% ifequal poll.status "DRAFT" %}

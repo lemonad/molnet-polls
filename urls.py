@@ -28,7 +28,7 @@ urlpatterns = patterns('molnet.polls.views',
 urlpatterns += patterns('',
     url(r'^feeds/(?P<url>.*)/$',
         'django.contrib.syndication.views.feed',
-        name='molnet-polls-feed-latest-polls',
+        name='molnet-polls-feed',
         kwargs={'feed_dict': feeds}),
 )
 

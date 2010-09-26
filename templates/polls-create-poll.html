@@ -1,9 +1,13 @@
-{% extends "polls-base.html" %}
+{% extends "polls-base-without-create.html" %}
 {% load i18n md2 %}
 {% block metatitle %}{% trans "Create poll" %}{% endblock %}
 {% block reporterrorlink %}{% url errorreport %}?url={% url molnet-polls-create-poll %}{% endblock %}
 {% block javascript %}
-  <script type='text/javascript'>
+  <script type="text/javascript"
+          src="/media/javascript/wmd/showdown.js"></script>
+  <script type="text/javascript"
+          src="/media/javascript/wmd/wmd.js"></script>
+  <script type="text/javascript">
   $(document).ready(function() {
     if (!elementSupportsAttribute('div', '-moz-border-radius') &&
             !elementSupportsAttribute('div', '-webkit-border-radius')) {
@@ -45,13 +49,16 @@
       </p>
       {% endif %}
       <p class="poll-caption">
-        {% trans "Minimal formatting allowed (*<em>emphasis</em>*, **<strong>bold</strong>**, [link text](http://example.com/) and a few <a href='http://daringfireball.net/projects/markdown/syntax'>others</a>)" %}
+        {% trans "Formatting: *<em>emphasis</em>*, **<strong>bold</strong>**, [link text](http://example.com/) and <a href='http://daringfireball.net/projects/markdown/syntax'>more</a>." %}
       </p>
+      <h5>{% trans "Preview" %}</h5>
+      <div id="wmd-preview"></div>
+      <hr/>
 
       <div class="span-12 last">
         {{ form.allow_new_choices }} {{ form.allow_new_choices.label_tag }}
       </div>
-      <div class="span-12 last">
+      <div class="span-12 last" style="text-align: right;">
         <input class="submit" type="submit" value="{% trans "Create" %}" />
       </div>
       {% if form.allow_new_choices.errors %}

@@ -189,6 +189,7 @@ class PollForm(ModelFormRequestUser):
         super(PollForm, self).__init__(*args, **kwargs)
         self.fields['title'].widget.attrs['class'] = 'span-12 last input'
         self.fields['description'].widget.attrs['class'] = 'span-12 last input'
+        self.fields['description'].widget.attrs['id'] = 'wmd-input'
 
 class ChoiceForm(ModelFormRequestUser):
     """ Form for adding and editing poll choices. """

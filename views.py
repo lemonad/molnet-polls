@@ -45,7 +45,9 @@ def startpage(request):
 
     t = loader.get_template('polls-index.html')
     c = RequestContext(request,
-                       {'sidebar_polls': sidebar_polls,})
+                       {'sidebar_polls': sidebar_polls,
+                        'navigation': 'polls',
+                        'navigation2': 'polls-all',})
     return HttpResponse(t.render(c))
 
 def show_poll(request, year, month, day, slug):
@@ -54,7 +56,7 @@ def show_poll(request, year, month, day, slug):
     choices = Choice.objects.get_choices_and_votes_for_poll(poll.id)
 
     show_results = False
-    if 'show-results' in request.GET:
+    if 'show-results' in request.GET or poll.status == "CLOSED":
         show_results = True
 
     if not request.user.is_authenticated():
@@ -166,7 +168,9 @@ def create_poll(request):
     t = loader.get_template('polls-create-poll.html')
     c = RequestContext(request,
                        {'form': form,
-                        'sidebar_polls': sidebar_polls})
+                        'sidebar_polls': sidebar_polls,
+                        'navigation': 'polls',
+                        'navigation2': 'polls-create',})
     return HttpResponse(t.render(c))
 
 @login_required

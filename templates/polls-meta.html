@@ -1,5 +1,5 @@
 {% load i18n %}
-<div class="poll-meta">
+<p class="poll-meta">
   {% url people poll.user.username as link_to_person %}
   <em>
     {% ifequal poll.status "PUBLISHED" %}
@@ -22,4 +22,4 @@
     {% endblocktrans %}
     {% endifequal %}
   </em>
-</div>
+</p>

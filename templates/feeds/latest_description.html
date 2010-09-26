@@ -1,1 +1,2 @@
-{{ obj.description }}
+{% load md2 %}
+{{ obj.description|markdown2 }}
